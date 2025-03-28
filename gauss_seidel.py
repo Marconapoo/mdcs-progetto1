@@ -22,4 +22,3 @@ def gauss_seidel(A, b, x0, tol, nmax):
     
     err = np.linalg.norm(x_new - x_old, ord=np.inf)
     return x_new, i, err
-

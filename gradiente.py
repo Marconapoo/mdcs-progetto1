@@ -22,15 +22,7 @@ def gradiente(A, b, x0, tol, nmax):
         residual = b - A @ x_old
         step = residual @ residual / (residual @ (A @ residual))
         x_new = x_old + step * residual
-        
-        numerator = np.linalg.norm(b - A @ x_new)
-        if np.linalg.norm(x_new) != 0:
-            denominator = np.linalg.norm(x_new)
-        else:
-            denominator = 1.0
-
-        err = numerator / denominator
-
+        err = np.linalg.norm(b - A @ x_new)/np.linalg.norm(x_new)
         x_old = x_new
         i += 1
     

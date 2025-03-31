@@ -12,13 +12,13 @@ def gauss_seidel(A, b, x0, tol, nmax):
 
     x_old = x0.astype(float)
     x_new = x_old + 1.0
-    i = 0
+    k = 0
 
-    while np.linalg.norm(x_new - x_old) > tol and i < nmax:
+    while np.linalg.norm(A @ x_new - b) / np.linalg.norm(b) > tol and k < nmax:
         x_old = x_new
         rhs = b - B @ x_old
         x_new = np.linalg.solve(L, rhs)
-        i += 1
+        k += 1
     
-    err = np.linalg.norm(x_new - x_old, ord=np.inf)
-    return x_new, i, err
+    error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
+    return x_new, k, error

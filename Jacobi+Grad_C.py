@@ -1,25 +1,25 @@
 import numpy as np
 
-def jacobi(A, b, x0, tol, maxIter=20000):
+def jacobi(A, b, x0, tol, maxIter=100):
     n = A.shape[0]
-    x = x0.copy()
+    x_old = x0.copy()
     # Calcolo di P: matrice diagonale
     P = np.diag(np.diag(A))
     # Calcolo di N: matrice ottenuta mettendo a 0 le entrate sulla diagonale di A e considerando l’opposto di tutte le altre entrate
     N = P - A
     P_inv = np.linalg.inv(P)
-    for k in range(maxIter):
+    k = 0
+    x_new = x_old + 1.0
+
+    while np.linalg.norm(A @ x_new - b) / np.linalg.norm(b) > tol and k < maxIter:
         # Calcoliamo il nuovo vettore x^(k+1) = P^(−1) * ( b − N * x^(k))
-        x_new = P_inv @ (b - N @ x)
-        
-        # Criterio di arresto
-        if np.linalg.norm(A @ x_new - b) / np.linalg.norm(b) < tol:
-            return x_new, k + 1, True
-        
-        x = x_new  # Aggiorniamo x per la prossima iterazione
+        x_new = P_inv @ (b - N @ x_old)
+        x_old = x_new  # Aggiorniamo x per la prossima iterazione
+        k += 1
+    error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
 
     # Se il ciclo termina senza convergenza
-    return x, maxIter, False
+    return x_old, maxIter, error
 def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
     n = A.shape[0]
     r = b - A @ x0 #residuo iniziale
@@ -44,24 +44,28 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
 
 # Esempio di test
 if __name__ == "__main__":
-    a = np.array([[4, -1, 0],
-                  [-1, 4, -1],
-                  [0, -1, 4]], dtype = float)
+    a = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0],
+                  [-1, 3, -1, 0, 0, 0, 0, 0, 0],
+                  [0, -1, 3, -1, 0, 0, 0, 0, 0],
+                  [0, 0, -1, 3, -1, 0, 0, 0, 0],
+                  [0, 0, 0, -1, 3, -1, 0, 0, 0],
+                  [0, 0, 0, 0, -1, 3, -1, 0, 0],
+                  [0, 0, 0, 0, 0, -1, 3, -1, 0],
+                  [0, 0, 0, 0, 0, 0, -1, 3, -1],
+                  [0, 0, 0, 0, 0, 0, 0, -1, 3]], dtype = float)
 
-    b = np.array([15, 10, 10], dtype = float)
-    x0 = np.array([0, 0, 0], dtype = float)
+    b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype = float)
+    x0 = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0], dtype = float)
 
-    sol, num_iter, converged = jacobi(a, b, x0, 1e-5)
+    sol, num_iter, error = jacobi(a, b, x0, 1e-10)
     print("METODO DI JACOBI:")
-    if converged:
-        print(f"Soluzione trovata in {num_iter} iterazioni:")
-    else:
-        print(f"Non è stata raggiunta la convergenza in {num_iter} iterazioni.")
-    print(f"Soluzione approssimata: {sol}")
+    print(f"Soluzione approssimata: {sol}, errore: {error}")
+    """
     print("METODO DEL GRADIENTE CONIUGATO:")
     sol, num_iter, converged = gradiente_coniugato(a, b, x0, 1e-5)
     if converged:
         print(f"Soluzione trovata in {num_iter} iterazioni:")
     else:
         print(f"Non è stata raggiunta la convergenza in {num_iter} iterazioni.")
-    print(f"Soluzione approssimata: {sol}")
+    print(f"Soluzione approssimata: {sol}")"
+    """

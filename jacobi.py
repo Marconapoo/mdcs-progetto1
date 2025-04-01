@@ -10,14 +10,17 @@ def jacobi(A, b, x0, tol, maxIter=10000):
     x_old = x0.copy()
     x_new = x_old + 1
     k = 0
+    error = 1.0
     start_time = time.time()
 
-    while np.linalg.norm(A @ x_new - b) / np.linalg.norm(b) > tol and k < maxIter:
+    while error > tol and k < maxIter:
         x_old = x_new.copy()
         x_new = D_inv @ (B @ x_old + b)
+        error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
         k += 1
-    total_time = time.time() - start_time
-    error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
+
+    end_time = time.time()
+    total_time = end_time - start_time
     return x_new, k, error, total_time
 
 # Esempio

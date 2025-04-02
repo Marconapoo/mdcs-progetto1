@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-def jacobi(A, b, x0, tol, maxIter=10000):
+def jacobi(A, b, x0, tol, maxIter=20000):
     n = A.shape[0]
     D = np.diag(np.diag(A))
     B = D - A

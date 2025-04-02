@@ -20,13 +20,35 @@ def gauss_seidel(A, b, x0, tol, nmax):
     while error > tol and k < nmax:
         x_old = x_new
         rhs = b - B @ x_old
-        x_new = np.linalg.solve(L, rhs)
+        x_new = triang_inf(L, rhs)
         error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
         k += 1
     
     end_time = time.time()
     total_time = end_time - start_time
     return x_new, k, error, total_time
+
+
+def triang_inf(L, b):
+    M, N = L.shape
+
+    x = np.zeros(M)
+    
+    if M != N:
+        print("Matrix L is not a square matrix")
+        return x
+    
+    if not np.allclose(L, np.tril(L)):
+        print("Matrix L is not a lower triangular matrix")
+        return x
+    
+    x[0] = b[0] / L[0, 0]
+    
+    for i in range(1, N):
+        somma = L[i, :i] @  x[:i]
+        x[i] = (b[i] - somma) / L[i, i]
+    
+    return x
 
 # Esempio
 A = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0], 

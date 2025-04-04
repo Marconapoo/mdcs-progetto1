@@ -1,7 +1,7 @@
 import numpy as np
 import time 
 
-def gradiente(A, b, x0, tol, nmax):
+def gradiente(A, b, x0, tol, nmax=20000):
     M, N = A.shape
     if M != N:
         raise ValueError("Matrix A must be square")
@@ -33,21 +33,3 @@ def gradiente(A, b, x0, tol, nmax):
     total_time = end_time - start_time
 
     return x_new, k, error, total_time
-
-# Esempio
-A = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0], 
-              [-1, 3, -1, 0, 0, 0, 0, 0, 0],
-              [0, -1, 3, -1, 0, 0, 0, 0, 0],
-              [0, 0, -1, 3, -1, 0, 0, 0, 0],
-              [0, 0, 0, -1, 3, -1, 0, 0, 0],
-              [0, 0, 0, 0, -1, 3, -1, 0, 0],
-              [0, 0, 0, 0, 0, -1, 3, -1, 0],
-              [0, 0, 0, 0, 0, 0, -1, 3, -1],
-              [0, 0, 0, 0, 0, 0, 0, -1, 3]], dtype=float)
-
-b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
-x0 = np.zeros_like(b)
-
-sol, iterations, error, total_time = gradiente(A, b, x0, tol=1e-10, nmax=10000)
-print("METODO DEL GRADIENTE:")
-print(f"Soluzione approssimata: {sol}\nerrore: {error}\nnumero iterazioni: {iterations}  \ntempo di calcolo: {total_time}")

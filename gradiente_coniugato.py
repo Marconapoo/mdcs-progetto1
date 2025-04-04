@@ -39,22 +39,3 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
     end_time = time.time()
     total_time = end_time - start_time
     return x0, k, error, total_time
-
-# Esempio
-A = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0], 
-              [-1, 3, -1, 0, 0, 0, 0, 0, 0],
-              [0, -1, 3, -1, 0, 0, 0, 0, 0],
-              [0, 0, -1, 3, -1, 0, 0, 0, 0],
-              [0, 0, 0, -1, 3, -1, 0, 0, 0],
-              [0, 0, 0, 0, -1, 3, -1, 0, 0],
-              [0, 0, 0, 0, 0, -1, 3, -1, 0],
-              [0, 0, 0, 0, 0, 0, -1, 3, -1],
-              [0, 0, 0, 0, 0, 0, 0, -1, 3]], dtype=float)
-
-b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
-x0 = np.zeros_like(b)
-
-sol, iterations, error, timen = gradiente_coniugato(A, b, x0, tol=1e-10)
-
-print("METODO DEL GRADIENTE CONIUGATO:")
-print(f"Soluzione approssimata: {sol}\nerrore: {error}\nnumero iterazioni: {iterations}\ntempo di calcolo: {timen}")

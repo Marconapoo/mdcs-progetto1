@@ -1,7 +1,7 @@
 import numpy as np
 import time
 
-def gauss_seidel(A, b, x0, tol, nmax):
+def gauss_seidel(A, b, x0, tol, nmax=20000):
     M, N = A.shape
     if M != N:
         raise ValueError("Matrix A must be square")
@@ -49,21 +49,3 @@ def triang_inf(L, b):
         x[i] = (b[i] - somma) / L[i, i]
     
     return x
-
-# Esempio
-A = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0], 
-              [-1, 3, -1, 0, 0, 0, 0, 0, 0],
-              [0, -1, 3, -1, 0, 0, 0, 0, 0],
-              [0, 0, -1, 3, -1, 0, 0, 0, 0],
-              [0, 0, 0, -1, 3, -1, 0, 0, 0],
-              [0, 0, 0, 0, -1, 3, -1, 0, 0],
-              [0, 0, 0, 0, 0, -1, 3, -1, 0],
-              [0, 0, 0, 0, 0, 0, -1, 3, -1],
-              [0, 0, 0, 0, 0, 0, 0, -1, 3]], dtype=float)
-
-b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
-x0 = np.zeros_like(b)
-
-x_sol, iterations, error, gtime = gauss_seidel(A, b, x0, tol=1e-10, nmax=10000)
-print("METODO DI GAUSS-SEIDEL:")
-print(f"Soluzione approssimata: {x_sol}\nerrore: {error}\nnumero iterazioni: {iterations} \ntempo di calcolo: {gtime}")

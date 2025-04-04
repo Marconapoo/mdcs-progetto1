@@ -1,6 +1,5 @@
 import numpy as np
 import time
-from scipy.io import mmread
 
 def jacobi(A, b, x0, tol, maxIter=20000):
 
@@ -30,24 +29,5 @@ def jacobi(A, b, x0, tol, maxIter=20000):
     total_time = end_time - start_time
     return x_new, k, error, total_time
 
-# Esempio
-A = np.array([[3, -1, 0, 0, 0, 0, 0, 0, 0], 
-              [-1, 3, -1, 0, 0, 0, 0, 0, 0],
-              [0, -1, 3, -1, 0, 0, 0, 0, 0],
-              [0, 0, -1, 3, -1, 0, 0, 0, 0],
-              [0, 0, 0, -1, 3, -1, 0, 0, 0],
-              [0, 0, 0, 0, -1, 3, -1, 0, 0],
-              [0, 0, 0, 0, 0, -1, 3, -1, 0],
-              [0, 0, 0, 0, 0, 0, -1, 3, -1],
-              [0, 0, 0, 0, 0, 0, 0, -1, 3]], dtype=float)
 
-b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
-x0 = np.zeros_like(b)
-
-sol, iterations, error, timen = jacobi(A, b, x0, tol=1e-10)
-
-print("METODO DI JACOBI:")
-print(f"Soluzione approssimata: {sol}\nerrore: {error}\nnumero iterazioni: {iterations}\ntempo di calcolo: {timen}")
-c = mmread('vem1.mtx')
-print(c)
 

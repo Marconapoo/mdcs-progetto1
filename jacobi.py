@@ -1,5 +1,6 @@
 import numpy as np
 import time
+from scipy.io import mmread
 
 def jacobi(A, b, x0, tol, maxIter=20000):
     n = A.shape[0]
@@ -41,3 +42,6 @@ sol, iterations, error, timen = jacobi(A, b, x0, tol=1e-10)
 
 print("METODO DI JACOBI:")
 print(f"Soluzione approssimata: {sol}\nerrore: {error}\nnumero iterazioni: {iterations}\ntempo di calcolo: {timen}")
+c = mmread('vem1.mtx')
+print(c)
+

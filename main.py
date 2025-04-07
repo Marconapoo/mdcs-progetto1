@@ -21,12 +21,16 @@ if __name__ == '__main__':
     b = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
     x0 = np.zeros_like(b)
 
+    c = mmread('matrixes/vem1.mtx')
+    d = np.ones_like(c.shape[0])
+    x0 = np.zeros_like(d)
+
     sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)
     sol_gs, iterations_gs, error_gs, time_gs = gauss_seidel(A, b, x0, tol=1e-10)
     sol_gc, iterations_gc, error_gc, time_gc = gradiente_coniugato(A, b, x0, tol=1e-10)
     sol_g, iterations_g, error_g, time_g = gradiente(A, b, x0, tol=1e-10)
 
-    #c = mmread('vem1.mtx')
+
 
     print("METODO DI JACOBI:")
     print(f"Soluzione approssimata: {sol_j}\nerrore: {error_j}\nnumero iterazioni: {iterations_j}\ntempo di calcolo: {time_j}")

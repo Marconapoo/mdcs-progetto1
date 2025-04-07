@@ -28,6 +28,3 @@ def jacobi(A, b, x0, tol, maxIter=20000):
     end_time = time.time()
     total_time = end_time - start_time
     return x_new, k, error, total_time
-
-
-

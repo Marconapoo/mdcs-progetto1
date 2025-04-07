@@ -1,4 +1,6 @@
 import numpy as np
+from scipy.sparse import tril
+from scipy.sparse.linalg import spsolve
 import time
 
 def gauss_seidel(A, b, x0, tol, nmax=20000):
@@ -8,7 +10,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
     if M != len(b) or M != len(x0):
         raise ValueError("Incompatible dimensions")
     
-    L = np.tril(A)
+    L = tril(A)
     B = A - L
 
     x_old = x0.astype(float)
@@ -20,7 +22,8 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
     while error > tol and k < nmax:
         x_old = x_new
         rhs = b - B @ x_old
-        x_new = triang_inf(L, rhs)
+        #x_new = triang_inf(L, rhs)
+        x_new = spsolve(L, rhs)
         error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
         k += 1
     
@@ -49,3 +52,4 @@ def triang_inf(L, b):
         x[i] = (b[i] - somma) / L[i, i]
     
     return x
+

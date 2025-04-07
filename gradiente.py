@@ -1,19 +1,20 @@
 import numpy as np
+from scipy.sparse.linalg import eigsh
 import time 
 
-def gradiente(A, b, x0, tol, nmax=20000):
+def gradiente(A, b, x0, tol, nmax=2000000):
     M, N = A.shape
     if M != N:
         raise ValueError("Matrix A must be square")
     if M != len(b) or M != len(x0):
         raise ValueError("Incompatible dimensions")
     
-    if not np.allclose(A, A.T):
-        raise ValueError("Matrix A must be symmetric")
+    #if not np.allclose(A, A.T):
+      #  raise ValueError("Matrix A must be symmetric")
     
-    eigvals = np.linalg.eigvalsh(A)
-    if np.any(eigvals <= 0):
-        raise ValueError("Matrix A must be positive definite")
+    eigvals = eigsh(A)
+    #if np.any(eigvals <= 0):
+      #  raise ValueError("Matrix A must be positive definite")
     
     k = 0
     error = 1.0

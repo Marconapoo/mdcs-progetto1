@@ -9,12 +9,12 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
     if M != len(b) or M != len(x0):
         raise ValueError("Incompatible dimensions")
     
-    if not np.allclose(A, A.T):
-        raise ValueError("Matrix A must be symmetric")
+    #if not np.allclose(A, A.T):
+     #   raise ValueError("Matrix A must be symmetric")
     
-    eigvals = np.linalg.eigvalsh(A)
-    if np.any(eigvals <= 0):
-        raise ValueError("Matrix A must be positive definite")
+    #eigvals = np.linalg.eigvalsh(A)
+    #if np.any(eigvals <= 0):
+     #   raise ValueError("Matrix A must be positive definite")
 
     r = b - A @ x0
     p = r.copy()

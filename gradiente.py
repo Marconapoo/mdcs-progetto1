@@ -9,13 +9,6 @@ def gradiente(A, b, x0, tol, nmax=2000000):
     if M != len(b) or M != len(x0):
         raise ValueError("Incompatible dimensions")
     
-    #if not np.allclose(A, A.T):
-      #  raise ValueError("Matrix A must be symmetric")
-    
-    eigvals = eigsh(A)
-    #if np.any(eigvals <= 0):
-      #  raise ValueError("Matrix A must be positive definite")
-    
     k = 0
     error = 1.0
     x_old = x0.astype(float)

@@ -1,20 +1,33 @@
-from jacobi import jacobi, jacobi_sparse
+from jacobi import jacobi
 from gauss_seidel import gauss_seidel
 from gradiente_coniugato import gradiente_coniugato
 from gradiente import gradiente
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import mmread
 from grafici_relazione import genera_grafici
+from tkinter.filedialog import askopenfilename
+import time
+import os
 
 if __name__ == '__main__':
+    if not os.path.exists('matrixes'):
+        os.makedirs('matrixes')
+    print("Carica la matrice in formato .mtx. \n Il file deve essere presente nella cartella 'matrixes' e il nome del file deve essere in formato 'nome.mtx'.")
+    filelocation = ""
+    while(filelocation == ""):
+        time.sleep(1)
+        filelocation = askopenfilename(initialdir=os.getcwd() + "\matrixes", title="Seleziona il file .mxt", filetypes=[("Matrix Market files", "*.mtx")])
+        if(filelocation == ""):
+            print("Nessun file selezionato. Verifica che il file sia presente nella cartella 'matrixes' e che il nome del file sia in formato 'nome.mtx'.")
 
-    A = mmread('matrixes/spa1.mtx').tocsr()
+    file_name=filelocation.split("/")[-1]
+
+    A = mmread(f'matrixes/{file_name}').tocsr()
     b = np.ones(A.shape[0])
     x0 = np.zeros_like(b)
 
     
-    sol_j, iterations_j, error_j, time_j = jacobi_sparse(A, b, x0, tol=1e-10)
+    sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)
 
     print("Soluzione approssimata: ", sol_j)
     print("Errore: ", error_j)
@@ -57,3 +70,4 @@ if __name__ == '__main__':
                  "Gradiente": {"soluzione": sol_mg, "n_iter": iterations_mg, "errore": error_mg, "tempo": time_mg},
                  "Gradiente Coniugato": {"soluzione": sol_gc, "n_iter": iterations_gc, "errore": error_gc, "tempo": time_gc}}
     genera_grafici(risultati)
+    

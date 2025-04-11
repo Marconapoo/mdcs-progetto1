@@ -1,7 +1,7 @@
-from jacobi import jacobi
-from gauss_seidel import gauss_seidel
-from gradiente_coniugato import gradiente_coniugato
-from gradiente import gradiente
+from methods.jacobi import jacobi
+from methods.gauss_seidel import gauss_seidel
+from methods.gradiente_coniugato import gradiente_coniugato
+from methods.gradiente import gradiente
 import matplotlib.pyplot as plt
 import numpy as np
 

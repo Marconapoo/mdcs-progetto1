@@ -1,7 +1,7 @@
-from jacobi import jacobi
-from gauss_seidel import gauss_seidel
-from gradiente_coniugato import gradiente_coniugato
-from gradiente import gradiente
+from methods.jacobi import jacobi
+from methods.gauss_seidel import gauss_seidel
+from methods.gradiente_coniugato import gradiente_coniugato
+from methods.gradiente import gradiente
 import numpy as np
 from scipy.io import mmread
 from grafici_relazione import genera_grafici
@@ -11,7 +11,7 @@ import os
 import sys
 
 
-if __name__ == '__main__':
+def load_matrix():
     np.set_printoptions(threshold=sys.maxsize)
     if not os.path.exists('matrixes'):
         os.makedirs('matrixes')
@@ -24,8 +24,15 @@ if __name__ == '__main__':
             print("Nessun file selezionato. Verifica che il file sia presente nella cartella 'matrixes' e che il nome del file sia in formato 'nome.mtx'.")
 
     file_name=filelocation.split("/")[-1]
-
     A = mmread(f'matrixes/{file_name}').tocsr()
+    return A
+
+
+if __name__ == '__main__':
+    
+    A = load_matrix()
+
+    
     x0 = np.ones(A.shape[0])
     b = np.random.rand(A.shape[0])  
 

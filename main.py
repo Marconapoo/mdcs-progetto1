@@ -34,7 +34,6 @@ if __name__ == '__main__':
     
     x0 = np.ones(A.shape[0])
     b = np.random.rand(A.shape[0]) 
-    b = np.ones(A.shape[0]) 
 
 
     sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)

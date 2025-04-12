@@ -4,7 +4,7 @@ from methods.gradiente_coniugato import gradiente_coniugato
 from methods.gradiente import gradiente
 import numpy as np
 from scipy.io import mmread
-from grafici_relazione import genera_grafici
+from utils.grafici_relazione import genera_grafici
 from tkinter.filedialog import askopenfilename
 import time
 import os
@@ -18,7 +18,6 @@ def load_matrix():
     print("Carica la matrice in formato .mtx. \n Il file deve essere presente nella cartella 'matrixes' e il nome del file deve essere in formato 'nome.mtx'.")
     filelocation = ""
     while(filelocation == ""):
-        time.sleep(1)
         filelocation = askopenfilename(initialdir=os.getcwd() + "\matrixes", title="Seleziona il file .mxt", filetypes=[("Matrix Market files", "*.mtx")])
         if(filelocation == ""):
             print("Nessun file selezionato. Verifica che il file sia presente nella cartella 'matrixes' e che il nome del file sia in formato 'nome.mtx'.")
@@ -34,7 +33,8 @@ if __name__ == '__main__':
 
     
     x0 = np.ones(A.shape[0])
-    b = np.random.rand(A.shape[0])  
+    b = np.random.rand(A.shape[0]) 
+    b = np.ones(A.shape[0]) 
 
 
     sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)

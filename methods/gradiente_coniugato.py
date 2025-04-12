@@ -1,41 +1,71 @@
 import numpy as np
 import time
+from utils.matrix_utils import validate_matrix
 
 def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
-
-    M, N = A.shape
-    if M != N:
-        raise ValueError("Matrix A must be square")
-    if M != len(b) or M != len(x0):
-        raise ValueError("Incompatible dimensions")
+    """
+    Risolve il sistema lineare Ax = b utilizzando il metodo del gradiente coniugato.
     
-    #if not np.allclose(A, A.T):
-     #   raise ValueError("Matrix A must be symmetric")
+    Parametri:
+    ----------
+    A : array_like
+        Matrice dei coefficienti (deve essere simmetrica e definita positiva)
+    b : array_like
+        Vettore dei termini noti
+    x0 : array_like
+        Approssimazione iniziale della soluzione
+    tol : float
+        Tolleranza per il criterio di arresto (errore relativo)
+    maxIter : int, opzionale
+        Numero massimo di iterazioni permesse (default: 20000)
     
-    #eigvals = np.linalg.eigvalsh(A)
-    #if np.any(eigvals <= 0):
-     #   raise ValueError("Matrix A must be positive definite")
-
+    Returns:
+    --------
+    x0 : ndarray
+        Approssimazione della soluzione
+    k : int
+        Numero di iterazioni eseguite
+    error : float
+        Errore relativo dell'approssimazione finale
+    total_time : float
+        Tempo di esecuzione in secondi
+    """
+    
+    # Calcolo del residuo iniziale: r = b - Ax_0
     r = b - A @ x0
+    
     p = r.copy()
+    
     rsold = np.dot(r, r)
 
-    k = 0
-    error = 1.0
+    k = 0         # Contatore iterazioni
+    error = 1.0   # Errore iniziale arbitrario > tol
 
     start_time = time.time()
     
     while error > tol and k < maxIter:
+
         Ap = A @ p
+        
         alpha = rsold / np.dot(p, Ap)
+        
         x0 += alpha * p
+        
         r -= alpha * Ap
+        
         rsnew = np.dot(r, r)
+        
         error = np.linalg.norm(A @ x0 - b) / np.linalg.norm(b)
+        
         k += 1
-        p = r + (rsnew / rsold) * p
+        
+        beta = rsnew / rsold
+        
+        p = r + beta * p
+        
         rsold = rsnew
 
     end_time = time.time()
     total_time = end_time - start_time
+    
     return x0, k, error, total_time

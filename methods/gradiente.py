@@ -1,25 +1,53 @@
 import numpy as np
 from scipy.sparse.linalg import eigsh
 import time 
+from utils.matrix_utils import validate_matrix
 
 def gradiente(A, b, x0, tol, nmax=2000000):
-    M, N = A.shape
-    if M != N:
-        raise ValueError("Matrix A must be square")
-    if M != len(b) or M != len(x0):
-        raise ValueError("Incompatible dimensions")
+    """
+    Risolve il sistema lineare Ax = b utilizzando il metodo del gradiente.
     
+    Parametri:
+    ----------
+    A : array_like
+        Matrice dei coefficienti (deve essere simmetrica e definita positiva)
+    b : array_like
+        Vettore dei termini noti
+    x0 : array_like
+        Approssimazione iniziale della soluzione
+    tol : float
+        Tolleranza per il criterio di arresto (errore relativo)
+    nmax : int, opzionale
+        Numero massimo di iterazioni permesse (default: 2000000)
+    
+    Returns:
+    --------
+    x_new : ndarray
+        Approssimazione della soluzione
+    k : int
+        Numero di iterazioni eseguite
+    error : float
+        Errore relativo dell'approssimazione finale
+    total_time : float
+        Tempo di esecuzione in secondi
+    """
+
     k = 0
     error = 1.0
-    x_old = x0.astype(float)
+    x_old = x0.astype(float)  # Converte x0 in float per evitare problemi con tipi interi
 
     start_time = time.time()
 
     while k < nmax and error > tol:
+
         residual = b - A @ x_old
+        
         step = residual @ residual / (residual @ (A @ residual))
+        
         x_new = x_old + step * residual
+        
         error = np.linalg.norm(b - A @ x_new)/np.linalg.norm(x_new)
+        
         x_old = x_new
         k += 1
     

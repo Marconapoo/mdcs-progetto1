@@ -33,6 +33,10 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
     total_time : float
         Tempo di esecuzione in secondi
     """
+
+    valid, msg = validate_matrix(A, b, x0, method='gauss_seidel')
+    if not valid:
+        raise ValueError(msg)
     
     # Decomposizione della matrice A = L + (A-L)
     # L è la parte triangolare inferiore di A (inclusa la diagonale)
@@ -42,7 +46,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
 
 
     x_old = x0.astype(float)  # Converte x0 in float 
-    x_new = x_old + 1.0       # Inizializzazione arbitraria diversa da x_old
+    x_new = x_old + 1.0    # Inizializzazione arbitraria diversa da x_old
     k = 0                     # Contatore iterazioni
     error = 1.0               # Errore iniziale arbitrario > tol
 

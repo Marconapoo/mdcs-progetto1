@@ -31,10 +31,15 @@ def gradiente(A, b, x0, tol, nmax=2000000):
     total_time : float
         Tempo di esecuzione in secondi
     """
+    
+    valid, msg = validate_matrix(A, b, x0, method='gradiente')
+    if not valid:
+        raise ValueError(msg)
 
     k = 0
     error = 1.0
     x_old = x0.astype(float)  # Converte x0 in float per evitare problemi con tipi interi
+    x_new = x_old.copy()  # Inizializzazione arbitraria diversa da x_old
 
     start_time = time.time()
 
@@ -42,7 +47,10 @@ def gradiente(A, b, x0, tol, nmax=2000000):
 
         residual = b - A @ x_old
         
-        step = residual @ residual / (residual @ (A @ residual))
+        den = residual @ (A @ residual)
+        if den < 10e-15:
+            break
+        step = residual @ residual / den
         
         x_new = x_old + step * residual
         

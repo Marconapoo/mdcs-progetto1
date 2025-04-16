@@ -5,6 +5,8 @@ from scipy.sparse import isspmatrix_csr
 import time
 from utils.matrix_utils import validate_matrix
 
+
+
 def gauss_seidel(A, b, x0, tol, nmax=20000):
     """
     Risolve il sistema lineare Ax = b utilizzando il metodo iterativo di Gauss-Seidel.
@@ -46,7 +48,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
 
 
     x_old = x0.astype(float)  # Converte x0 in float 
-    x_new = x_old + 1.0    # Inizializzazione arbitraria diversa da x_old
+    x_new = x_old.copy()
     k = 0                     # Contatore iterazioni
     error = 1.0               # Errore iniziale arbitrario > tol
 

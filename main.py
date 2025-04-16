@@ -6,7 +6,6 @@ import numpy as np
 from scipy.io import mmread
 from utils.grafici_relazione import genera_grafici
 from tkinter.filedialog import askopenfilename
-import time
 import os
 import sys
 
@@ -30,12 +29,12 @@ if __name__ == '__main__':
     
     A = load_matrix()
 
-    
-    x0 = np.ones(A.shape[0])
-    #b = np.random.rand(A.shape[0]) 
-    b = A @ x0
+    x_true = np.ones(A.shape[0])
+    b = A @ x_true
+    x0 = np.random.randint(0, 1000, size=A.shape[0])
+    #x0 = np.zeros(A.shape[0])
+    x0 = x0.astype(float)  
 
-    x0 = np.random.rand(A.shape[0])
     sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)
 
     sol_gs, iterations_gs, error_gs, time_gs = gauss_seidel(A, b, x0, tol=1e-10)
@@ -61,4 +60,13 @@ if __name__ == '__main__':
                  "Gradiente Coniugato": {"soluzione": sol_gc, "n_iter": iterations_gc, "errore": error_gc, "tempo": time_gc}}
     
     genera_grafici(risultati)
-    
+
+    relative_error_j = np.linalg.norm(sol_j - x_true) / np.linalg.norm(x_true)
+    relative_error_gs = np.linalg.norm(sol_gs - x_true) / np.linalg.norm(x_true)
+    relative_error_mg = np.linalg.norm(sol_mg - x_true) / np.linalg.norm(x_true)
+    relative_error_gc = np.linalg.norm(sol_gc - x_true) / np.linalg.norm(x_true)
+
+    print(f"Errore relativo Jacobi: {relative_error_j}")
+    print(f"Errore relativo Gauss-Seidel: {relative_error_gs}")
+    print(f"Errore relativo Gradiente: {relative_error_mg}")
+    print(f"Errore relativo Gradiente Coniugato: {relative_error_gc}")

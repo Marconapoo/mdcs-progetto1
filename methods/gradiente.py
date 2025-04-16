@@ -3,7 +3,7 @@ from scipy.sparse.linalg import eigsh
 import time 
 from utils.matrix_utils import validate_matrix
 
-def gradiente(A, b, x0, tol, nmax=2000000):
+def gradiente(A, b, x0, tol, nmax=20000):
     """
     Risolve il sistema lineare Ax = b utilizzando il metodo del gradiente.
     

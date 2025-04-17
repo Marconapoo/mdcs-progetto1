@@ -47,7 +47,7 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
 
     start_time = time.time()
     
-    while error > tol and k < maxIter:
+    while error >= tol and k <= maxIter:
 
         Ap = A @ p
         

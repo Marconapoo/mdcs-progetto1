@@ -55,7 +55,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
 
     start_time = time.time()
     
-    while error > tol and k < nmax:
+    while error >= tol and k <= nmax:
         x_old = x_new
         
         rhs = b - B @ x_old

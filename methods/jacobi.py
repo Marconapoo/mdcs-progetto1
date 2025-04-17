@@ -59,7 +59,7 @@ def jacobi(A, b, x0, tol, maxIter=20000):
     
     start_time = time.time()
 
-    while error > tol and k < maxIter:
+    while error >= tol and k <= maxIter:
 
         x_new = D_inv * (b - R @ x_old)    
         

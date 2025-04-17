@@ -43,7 +43,7 @@ def gradiente(A, b, x0, tol, nmax=20000):
 
     start_time = time.time()
 
-    while k < nmax and error > tol:
+    while k <= nmax and error >= tol:
 
         residual = b - A @ x_old
         

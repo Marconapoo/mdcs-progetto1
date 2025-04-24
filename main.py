@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
 
     print("METODO DI JACOBI:")
-    print(f"Soluzione approssimata: {sol_j}\nerrore: {error_j}\nnumero iterazioni: {iterations_j}\ntempo di calcolo: {time_j}")
+    print(f"Soluzione approssimata: {sol_j} \nerrore: {error_j}\nnumero iterazioni: {iterations_j}\ntempo di calcolo: {time_j}")
     print("METODO DI GAUSS SEIDEL:")
     print(f"Soluzione approssimata: {sol_gs}\nerrore: {error_gs}\nnumero iterazioni: {iterations_gs}\ntempo di calcolo: {time_gs}")
     print("METODO DEL GRADIENTE:")

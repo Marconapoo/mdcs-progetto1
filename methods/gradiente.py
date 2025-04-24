@@ -3,7 +3,7 @@ from scipy.sparse.linalg import eigsh
 import time 
 from utils.matrix_utils import validate_matrix
 
-def gradiente(A, b, x0, tol, nmax=20000):
+def gradiente(A, b, x0, tol, maxIter=20000):
     """
     Risolve il sistema lineare Ax = b utilizzando il metodo del gradiente.
     
@@ -17,7 +17,7 @@ def gradiente(A, b, x0, tol, nmax=20000):
         Approssimazione iniziale della soluzione
     tol : float
         Tolleranza per il criterio di arresto (errore relativo)
-    nmax : int, opzionale
+    maxIter : int, opzionale
         Numero massimo di iterazioni permesse (default: 2000000)
     
     Returns:
@@ -43,18 +43,15 @@ def gradiente(A, b, x0, tol, nmax=20000):
 
     start_time = time.time()
 
-    while k <= nmax and error >= tol:
+    while k <= maxIter and error >= tol:
 
         residual = b - A @ x_old
-        
-        den = residual @ (A @ residual)
-        if den < 10e-15:
-            break
+        Ar = A @ residual
+        den = residual @ Ar
         step = residual @ residual / den
-        
         x_new = x_old + step * residual
         
-        error = np.linalg.norm(b - A @ x_new)/np.linalg.norm(x_new)
+        error = np.linalg.norm(A @ x_new - b) / np.linalg.norm(b)
         
         x_old = x_new
         k += 1

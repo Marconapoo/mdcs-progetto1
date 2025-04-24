@@ -7,7 +7,7 @@ from utils.matrix_utils import validate_matrix
 
 
 
-def gauss_seidel(A, b, x0, tol, nmax=20000):
+def gauss_seidel(A, b, x0, tol, maxIter=20000):
     """
     Risolve il sistema lineare Ax = b utilizzando il metodo iterativo di Gauss-Seidel.
     
@@ -21,7 +21,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
         Approssimazione iniziale della soluzione
     tol : float
         Tolleranza per il criterio di arresto (errore relativo)
-    nmax : int, opzionale
+    maxIter : int, opzionale
         Numero massimo di iterazioni permesse (default: 20000)
     
     Returns:
@@ -55,7 +55,7 @@ def gauss_seidel(A, b, x0, tol, nmax=20000):
 
     start_time = time.time()
     
-    while error >= tol and k <= nmax:
+    while error >= tol and k <= maxIter:
         x_old = x_new
         
         rhs = b - B @ x_old

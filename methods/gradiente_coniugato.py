@@ -52,8 +52,6 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
         Ap = A @ p
         
         den = np.dot(p, Ap)
-        if den < 10e-15:
-            break
         alpha = rsold / np.dot(p, Ap)
         
         x0 += alpha * p

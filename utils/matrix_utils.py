@@ -26,7 +26,22 @@ def is_symmetric(A):
     return (A != A.T).nnz == 0
 
 def is_diagonally_dominant(A):
-    pass
+    abs_data = np.abs(A.data)
+
+    for i in range(A.shape[0]):
+        row_start, row_end = A.indptr[i], A.indptr[i + 1]
+        cols = A.indices[row_start:row_end]
+        vals = abs_data[row_start:row_end]
+
+        diag_mask = cols == i
+        a_ii = vals[diag_mask][0] if diag_mask.any() else 0.0
+
+        off_diag_sum = vals[~diag_mask].sum()
+
+        if a_ii < off_diag_sum:
+            return False
+
+    return True
 
 def is_spd(A):
 
@@ -44,9 +59,7 @@ def is_spd(A):
     else:
         from scipy.sparse.linalg import eigsh
         min_eigenvalue = eigsh(A, k=1, which='SA', return_eigenvectors=False)[0]
-        print(f"Min eigenvalue: {min_eigenvalue}")
         return min_eigenvalue > 0
     
-
 
 

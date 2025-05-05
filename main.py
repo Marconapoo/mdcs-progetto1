@@ -31,8 +31,7 @@ if __name__ == '__main__':
 
     x_true = np.ones(A.shape[0])
     b = A @ x_true
-    x0 = np.random.randint(0, 1000, size=A.shape[0])
-    #x0 = np.zeros(A.shape[0])
+    x0 = np.random.randint(0, A.shape[0], size=A.shape[0])
     x0 = x0.astype(float)  
 
     sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)

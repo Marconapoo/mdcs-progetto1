@@ -13,7 +13,7 @@ def validate_matrix(A, b, x, method):
         if is_diagonally_dominant(A):
             return True, ""
         else:
-            return True, "La matrice A non è diagonalmente dominante, il metodo potrebbe non convergere."
+            return True, f"La matrice A non è diagonalmente dominante, il metodo di {method} potrebbe non convergere."
     
     if method == "gradiente_coniugato" or method == "gradiente":
         if is_spd(A):
@@ -49,10 +49,10 @@ def is_spd(A):
         return False
     
     N = A.shape[0]
-    if N < 1000:
-        # Use Cholesky decomposition for small matrices
+    if N < 10000000:
+        from scipy.linalg import cholesky
         try:
-            L = A.cholesky()
+            cholesky(A.todense())
             return True
         except Exception as e:
             return False

@@ -49,7 +49,7 @@ def is_spd(A):
         return False
     
     N = A.shape[0]
-    if N < 10000000:
+    if N < 100000:
         from scipy.linalg import cholesky
         try:
             cholesky(A.todense())

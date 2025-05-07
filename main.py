@@ -21,16 +21,46 @@ def load_matrix():
         print("Nessun file selezionato. Verifica che il file sia presente nella cartella 'matrixes' e che il nome del file sia in formato 'nome.mtx'.")
 
     file_name=filelocation.split("/")[-1]
-    A = mmread(f'matrixes/{file_name}').tocsr()
-    return A
+    matrix = mmread(f'matrixes/{file_name}').tocsr()
+    return matrix
 
 
 if __name__ == '__main__':
     
+    print("Benvenuto nel programma di risoluzione di sistemi lineari!")
+    print("Caricamento della matrice A...")
     A = load_matrix()
 
-    x_true = np.ones(A.shape[0])
-    b = A @ x_true
+    set_x_true = True
+    while set_x_true:
+        print("Vuoi caricare un vettore x soluzione esatta? (y/n)")
+        choice = input()
+        choice = choice.lower()
+        if choice == 'y':
+            x_true = load_matrix()
+            x_true = x_true.toarray()
+        elif choice == 'n':
+            x_true = np.ones(A.shape[0])
+            print("Il vettore x soluzione esatta contiene solo valori 1.")
+            set_x_true = False
+        else:
+            print("Scelta non valida. Riprova.")
+
+    set_b = True
+    while set_b:
+        print("Vuoi caricare un vettore b? (y/n)")
+        choice = input()
+        choice = choice.lower()
+        if choice == 'y':
+            b = load_matrix()
+            b = b.toarray()
+        elif choice == 'n':
+            b = A @ x_true
+            print("Il vettore b è stato calcolato come Ax.")
+            set_b = False
+        else:
+            print("Scelta non valida. Riprova.")
+
     x0 = np.random.randint(0, A.shape[0], size=A.shape[0])
     x0 = x0.astype(float)  
 

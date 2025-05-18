@@ -24,13 +24,7 @@ def load_matrix():
     matrix = mmread(f'matrixes/{file_name}').tocsr()
     return matrix
 
-
-if __name__ == '__main__':
-    
-    print("Benvenuto nel programma di risoluzione di sistemi lineari!")
-    print("Caricamento della matrice A...")
-    A = load_matrix()
-
+def load_x_true(A):
     set_x_true = True
     while set_x_true:
         print("Vuoi caricare un vettore x soluzione esatta? (y/n)")
@@ -45,7 +39,9 @@ if __name__ == '__main__':
             set_x_true = False
         else:
             print("Scelta non valida. Riprova.")
+    return x_true
 
+def load_b(A, x_true):
     set_b = True
     while set_b:
         print("Vuoi caricare un vettore b? (y/n)")
@@ -60,17 +56,40 @@ if __name__ == '__main__':
             set_b = False
         else:
             print("Scelta non valida. Riprova.")
+    return b
+
+if __name__ == '__main__':
+    
+    print("Benvenuto nel programma di risoluzione di sistemi lineari!")
+    print("Caricamento della matrice A...")
+    A = load_matrix()
+
+    x_true = load_x_true(A)
+    
+    b = load_b(A, x_true)
+
+
+    print("Seleziona la tolleranza per la convergenza (inserisci l'esponente da usare e.g 1e10):")
+    set_exp = True
+    while set_exp:
+        try:
+            exp = int(input())
+            set_exp = False
+        except ValueError:
+            print("Errore: inserire un numero intero.")
+    tol = 10 ** (-exp)
+    print("Esecuzione dei metodi di risoluzione...")
 
     x0 = np.random.randint(0, A.shape[0], size=A.shape[0])
     x0 = x0.astype(float)  
 
-    sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol=1e-10)
+    sol_j, iterations_j, error_j, time_j = jacobi(A, b, x0, tol)
 
-    sol_gs, iterations_gs, error_gs, time_gs = gauss_seidel(A, b, x0, tol=1e-10)
+    sol_gs, iterations_gs, error_gs, time_gs = gauss_seidel(A, b, x0, tol)
 
-    sol_mg, iterations_mg, error_mg, time_mg = gradiente(A, b, x0, tol=1e-10)
+    sol_mg, iterations_mg, error_mg, time_mg = gradiente(A, b, x0, tol)
 
-    sol_gc, iterations_gc, error_gc, time_gc = gradiente_coniugato(A, b, x0, tol=1e-10)
+    sol_gc, iterations_gc, error_gc, time_gc = gradiente_coniugato(A, b, x0, tol)
 
 
     print("METODO DI JACOBI:")

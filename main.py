@@ -69,7 +69,7 @@ if __name__ == '__main__':
     b = load_b(A, x_true)
 
 
-    print("Seleziona la tolleranza per la convergenza (inserisci l'esponente da usare e.g 1e10):")
+    print("Seleziona l'esponente per la tolleranza, (4, 6, 8, 10, ...). \nATTENZIONE! Con un esponente troppo grande qualche metodo potrebbe non convergere:")
     set_exp = True
     while set_exp:
         try:
@@ -78,7 +78,7 @@ if __name__ == '__main__':
         except ValueError:
             print("Errore: inserire un numero intero.")
     tol = 10 ** (-exp)
-    print("Esecuzione dei metodi di risoluzione...")
+    print("Esecuzione dei metodi di risoluzione con tolleranza:", tol)
 
     x0 = np.random.randint(0, A.shape[0], size=A.shape[0])
     x0 = x0.astype(float)  

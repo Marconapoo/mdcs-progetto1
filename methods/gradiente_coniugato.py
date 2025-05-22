@@ -52,8 +52,9 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
         Ap = A @ p
         
         den = np.dot(p, Ap)
+
         alpha = rsold / den
-        
+   
         x0 += alpha * p
         
         r -= alpha * Ap

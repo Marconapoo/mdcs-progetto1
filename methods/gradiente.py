@@ -35,6 +35,8 @@ def gradiente(A, b, x0, tol, maxIter=20000):
     valid, msg = validate_matrix(A, b, x0, method='gradiente')
     if not valid:
         raise ValueError(msg)
+    elif msg != "":
+        print(msg)
 
     k = 0
     error = 1.0

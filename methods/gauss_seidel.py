@@ -39,6 +39,8 @@ def gauss_seidel(A, b, x0, tol, maxIter=20000):
     valid, msg = validate_matrix(A, b, x0, method='gauss_seidel')
     if not valid:
         raise ValueError(msg)
+    elif msg != "":
+        print(msg)
     
     # Decomposizione della matrice A = L + (A-L)
     # L è la parte triangolare inferiore di A (inclusa la diagonale)

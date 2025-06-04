@@ -35,6 +35,8 @@ def jacobi(A, b, x0, tol, maxIter=20000):
     valid, msg = validate_matrix(A, b, x0, method='jacobi')
     if not valid:
         raise ValueError(msg)
+    elif msg != "":
+        print(msg)
 
     # Estrazione degli elementi diagonali della matrice A
     D = A.diagonal()                        

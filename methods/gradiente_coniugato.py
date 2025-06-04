@@ -34,6 +34,8 @@ def gradiente_coniugato(A, b, x0, tol, maxIter=20000):
     valid, msg = validate_matrix(A, b, x0, method='gradiente_coniugato')
     if not valid:
         raise ValueError(msg)
+    elif msg != "":
+        print(msg)
 
     # Calcolo del residuo iniziale: r = b - Ax_0
     r = b - A @ x0

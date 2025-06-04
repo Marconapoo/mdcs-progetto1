@@ -25,23 +25,18 @@ def validate_matrix(A, b, x, method):
 def is_symmetric(A):
     return (A != A.T).nnz == 0
 
-def is_diagonally_dominant(A):
-    abs_data = np.abs(A.data)
+def is_diagonally_dominant(X):
+    D = np.abs(X.diagonal())
 
-    for i in range(A.shape[0]):
-        row_start, row_end = A.indptr[i], A.indptr[i + 1]
-        cols = A.indices[row_start:row_end]
-        vals = abs_data[row_start:row_end]
+    abs_X = np.abs(X)
+    row_sums = np.array(abs_X.sum(axis=1)).flatten()
 
-        diag_mask = cols == i
-        a_ii = vals[diag_mask][0] if diag_mask.any() else 0.0
+    S = row_sums - D
+    if np.all(D > S):
+        return True
+    else:
+        return False
 
-        off_diag_sum = vals[~diag_mask].sum()
-
-        if a_ii < off_diag_sum:
-            return False
-
-    return True
 
 def is_spd(A):
 
